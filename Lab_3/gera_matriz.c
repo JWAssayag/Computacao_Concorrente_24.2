@@ -1,7 +1,7 @@
 /* Programa que cria arquivo com uma matriz de valores do tipo float, gerados aleatoriamente 
  * Entrada: dimensoes da matriz (linhas e colunas) e nome do arquivo de saida
  * Saida: arquivo binario com as dimensoes (valores inteiros) da matriz (linhas e colunas), 
- * seguido dos valores (float) de todas as celulas da matriz gerados aleatoriamente
+ * todas as celulas da matriz gerados aleatoriamente tem valores float
  * */
 
 #include<stdio.h>
