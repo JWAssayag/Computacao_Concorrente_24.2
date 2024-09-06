@@ -1,7 +1,7 @@
 /* Programa que le um arquivo binario com dois valores inteiros (indicando as dimensoes de uma matriz) 
  * e uma sequencia com os valores da matriz (em float)
  * Entrada: nome do arquivo de entrada
- * Saida: valores da matriz escritos no formato texto (com 6 casas decimais) na saida padrao 
+ * Saida: valores da matriz
  * */
 
 #include<stdio.h>
