@@ -1,13 +1,14 @@
 /*
  * Multiplicação de matrizes MxN e NxP de forma sequencial
- * Recebendo duas matrizes em formato de arquivo binário
+ * Recebendo duas matrizes em formato de arquivo binário e arquivo de saida da matriz resultante
+ * Entrada <matriz A> <matriz B> <matriz C saida>
+ * Saida: valores de tempo de cada etapa
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "timer.h"
 
-#define TEMPO
 
 typedef struct {
     int linhas;
@@ -163,11 +164,13 @@ int main(int argc, char *argv[]) {
     free(C);
     GET_TIME(fim_end);
 
-    #ifdef TEMPO
-    // Exporta os tempos de execução em formato CSV
-    //fprintf(stdout, "inicializacao, multiplicacao, finalizacao, total, threads\n");
-        fprintf(stdout, "%f, %f, %f, %f, seq\n", fim_init - inicio_init, fim_mult - inicio_mult, fim_end - inicio_end, fim_end - inicio_init);
-    #endif
+    
+
+    printf("Tempo de inicialização: %.f\n", fim_init - inicio_init);
+    printf("Tempo de multiplicação: %.f\n", fim_mult - inicio_mult);
+    printf("Tempo de finalização: %.f\n", fim_end - inicio_end);
+    printf("Tempo total: %.f\n", fim_end - inicio_init);
+   
 
     return 0;
 }
