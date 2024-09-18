@@ -1,0 +1,43 @@
+*Atividade 1*
+
+Os valores impressos fora diferente?
+Sim
+pq?
+A ordem das threads não é sequencial.
+As intercalações entre as threads vão variar de uma execução para outra.
+É difícil que executem na mesma frequência.
+Se fossem sequenciais, o resultado seria sempre o mesmo.
+Acontece porque estamos usando uma variável global e editando ela em três passos, as threads acabam pegando a variável antes que as outras threads terminem de modificá-las.
+Duas ou mais threads leram o valor igual e quando voltaram pra memória, colocaram o valor igual na memória, logo, perderam incrementos.
+
+Outra razão, não adianta nada uma thread incrementar a pampa, se uma ainda tem um valor inicial e demora (perde a fatia na CPU) a processar e colocar o valor novamente na memória, quando colocar, vai subescrever com o valor inicial mais um incremento. 
+
+
+É possível que termine acima de 20000 com 2 threads?
+Não. Só pode porder incremento, ganhar incremento não vai.
+
+
+
+*Atividade 2*
+
+
+Sim, sempre retorna os mesmos valores. Agora as threads não leem quando tem uma thread alterando a variável, isso garante que não haja thread sobrescrevendo na memória com valores antigos depois de outras threads já terem alterado a variável. Dessa forma, não há perda de incrementação e sobrescrita de variáveis registrada nos registradores em ordem diversa.
+
+
+#Atividade 3*
+
+
+Quais valores devem ser impressos?
+
+Como a thread de print não é sequencial, ela não vai printar todos os valores divididos por 10, vai executar quando conseguir. Quando conseguir fatia de tempo, quando casar de rodar quando as outras tiverem rodado e quando coincidentemente pegar um número divisível por 10, vai imprimir.
+
+
+Os valores foram esperados?
+Não, acabou imprimindo números que não são múltiplos de 10. Como não tem atomicidade, de vez em quando ele checa se um número é múltiplo de 10, verifica que sim, mas quando vai printar, o número já foi alterado.
+
+
+Agora os valores condizem?
+Sim, agora como tem um lock quando a variável é lida, até ela ser impressa, não pode ser alterada, garantindo a corretude do programa.
+
+O problema foi resolvido?
+Sim, agora a saída condiz com o esperado. 
