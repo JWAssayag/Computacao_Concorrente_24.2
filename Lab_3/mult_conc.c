@@ -1,7 +1,7 @@
 /*
  * Multiplicação de matrizes MxN e NxP de forma concorrente
- * Recebendo duas matrizes em formato de arquivo binário o arquivo de saida da matriz resultante e o número de threads respectivamente
- * Entrada <matriz A> <matriz B> <matriz C> threads
+ * Recebendo duas matrizes em formato de arquivo binário, o arquivo de saida da matriz resultante e o número de threads respectivamente
+ * Entrada <matriz A> <matriz B> <matriz C saida> threads
  * Saida: valores de tempo de cada etapa  
  */
 
