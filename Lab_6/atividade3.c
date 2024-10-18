@@ -2,8 +2,8 @@
 Programa Concorrente - Leitores e Escritores com Prioridade para Escrita
 
 Este programa para controle em operações de escrita prioritaria. Varios leitores podem ler simultaneamente,mas quando há escritores aguardando, escritor recebe prioridade.
-Compilação: `gcc -o rwlock rwlock.c -lpthread`
-Execução: `./rwlock <numero_de_threads>`
+Compilação: `gcc -o ativ3 atividade3.c list_int.c -lpthread`
+Execução: `./ativ3 <numero_de_threads>`
 */
 
 
@@ -32,14 +32,14 @@ int esperando_escritores = 0; // escritores aguardando
 int escritor_ativo = 0; // indica se há um escritor ativo
 
 // Função para inicializar o rwlock modificado
-void rwlock_init() {
+void init() {
     pthread_mutex_init(&mutex, NULL);
     pthread_cond_init(&cond_leitores, NULL);
     pthread_cond_init(&cond_escritores, NULL);
 }
 
 // Função de lock para leitura com prioridade para escritores
-void rwlock_read_lock(long int id) {
+void read_lock(long int id) {
     pthread_mutex_lock(&mutex);
     while (escritor_ativo || esperando_escritores > 0) {
         printf("Thread %ld bloqueada esperando escritores\n", id);
@@ -51,7 +51,7 @@ void rwlock_read_lock(long int id) {
 }
 
 // Função de unlock para leitura
-void rwlock_read_unlock(long int id) {
+void read_unlock(long int id) {
     pthread_mutex_lock(&mutex);
     num_leitores--;
     printf("Thread %ld terminou leitura (Leitores ativos: %d)\n", id, num_leitores);
@@ -63,7 +63,7 @@ void rwlock_read_unlock(long int id) {
 }
 
 // Função de lock para escrita
-void rwlock_write_lock(long int id) {
+void write_lock(long int id) {
     pthread_mutex_lock(&mutex);
     esperando_escritores++;
     printf("Thread %ld solicitou escrita (Escritores esperando: %d)\n", id, esperando_escritores);
@@ -77,7 +77,7 @@ void rwlock_write_lock(long int id) {
 }
 
 // Função de unlock para escrita
-void rwlock_write_unlock(long int id) {
+void write_unlock(long int id) {
     pthread_mutex_lock(&mutex);
     escritor_ativo = 0;
     printf("Thread %ld terminou escrita\n", id);
@@ -101,19 +101,19 @@ void* tarefa(void* arg) {
    for(long int i=id; i<QTDE_OPS; i+=nthreads) {
       op = rand() % 100;
       if(op<98) {
-         rwlock_read_lock(id); /* lock de LEITURA */    
+         read_lock(id); /* lock de LEITURA */    
          Member(i%MAX_VALUE, head_p);   /* Ignore return value */
-         rwlock_read_unlock(id);     
+         read_unlock(id);     
          read++;
       } else if(98<=op && op<99) {
-         rwlock_write_lock(id); /* lock de ESCRITA */    
+         write_lock(id); /* lock de ESCRITA */    
          Insert(i%MAX_VALUE, &head_p);  /* Ignore return value */
-         rwlock_write_unlock(id);     
+         write_unlock(id);     
          in++;
       } else if(op>=99) {
-         rwlock_write_lock(id); /* lock de ESCRITA */     
+         write_lock(id); /* lock de ESCRITA */     
          Delete(i%MAX_VALUE, &head_p);  /* Ignore return value */
-         rwlock_write_unlock(id);     
+         write_unlock(id);     
          out++;
       }
    }
@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
    //tomada de tempo inicial
    GET_TIME(ini);
    //inicializa a variavel rwlock modificado
-   rwlock_init();
+   init();
    
    //cria as threads
    for(long int i=0; i<nthreads; i++) {
